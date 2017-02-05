@@ -1,0 +1,21 @@
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+        elementFormDefault="qualified"
+        targetNamespace="http://mycompany.com/hr/schemas"
+        xmlns:hr="http://mycompany.com/hr/schemas">
+    <xs:element name="PartyRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="hr:Party"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="Party">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="dateOfBirth" type="xs:string"/>
+                <xs:element name="nameFirst" type="xs:string"/>
+                <xs:element name="nameLast" type="xs:string"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+</xs:schema>
