@@ -1,14 +1,15 @@
 package com.mycompany.hr.ws;
 
-import org.jdom.Element;
-import org.jdom.JDOMException;
-import org.jdom.Namespace;
-import org.jdom.xpath.XPath;
+import org.jdom2.Element;
+import org.jdom2.JDOMException;
+import org.jdom2.Namespace;
+import org.jdom2.filter.Filters;
+import org.jdom2.xpath.XPathExpression;
+import org.jdom2.xpath.XPathFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ws.server.endpoint.annotation.Endpoint;
 import org.springframework.ws.server.endpoint.annotation.PayloadRoot;
 import org.springframework.ws.server.endpoint.annotation.RequestPayload;
-import org.springframework.ws.server.endpoint.annotation.ResponsePayload;
 
 import com.mycompany.hr.service.StubPartyResourceService;
 
@@ -17,17 +18,17 @@ public class PartyEndpoint {
 
   private static final String NAMESPACE_URI = "http://mycompany.com/hr/schemas";
 
-  private XPath partyRequest;
+  private XPathExpression<Element> partyRequest;
   
-  private XPath party;
+  private XPathExpression<Element> party;
 
-  private XPath dateOfBirth;
+  private XPathExpression<Element> dateOfBirth;
   
-  private XPath nameFirst;
+  private XPathExpression<Element> nameFirst;
   
-  private XPath nameLast;
+  private XPathExpression<Element> nameLast;
 
-  private XPath nameExpression;
+  private XPathExpression<Element> nameExpression;
 
   private StubPartyResourceService humanResourceService;
 
@@ -35,27 +36,26 @@ public class PartyEndpoint {
   public PartyEndpoint(StubPartyResourceService humanResourceService)                      
       throws JDOMException {
     this.humanResourceService = humanResourceService;
+    XPathFactory xpathFactory = XPathFactory.instance();
 
     Namespace namespace = Namespace.getNamespace("hr", NAMESPACE_URI);
 
-    partyRequest = XPath.newInstance("//hr:PartyRequest");
-    partyRequest.addNamespace(namespace);
+    partyRequest = xpathFactory.compile("//hr:PartyRequest", Filters.element(), null, namespace);
+   
 
-    party = XPath.newInstance("//hr:Party");
-    party.addNamespace(namespace);
+    party = xpathFactory.compile("//hr:Party", Filters.element(), null, namespace);
+   
     
-    dateOfBirth = XPath.newInstance("//hr:dateOfBirth");
-    dateOfBirth.addNamespace(namespace);
+    dateOfBirth = xpathFactory.compile("//hr:dateOfBirth", Filters.element(), null, namespace);
+  
     
-    nameFirst = XPath.newInstance("//hr:nameFirst");
-    nameFirst.addNamespace(namespace);
+    nameFirst = xpathFactory.compile("//hr:nameFirst", Filters.element(), null, namespace);   
     
-    nameLast = XPath.newInstance("//hr:nameLast");
-    nameLast.addNamespace(namespace);
+    nameLast = xpathFactory.compile("//hr:nameLast", Filters.element(), null, namespace);    
   }
 
   @PayloadRoot(namespace = NAMESPACE_URI, localPart = "PartyRequest")     
-  @ResponsePayload
+//  @ResponsePayload
   public void handlePartyRequest(@RequestPayload Element partyRequest)               
       throws Exception {
     System.out.println("dsadas");
